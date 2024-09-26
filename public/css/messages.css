@@ -1,0 +1,247 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f0f2f5;
+    overflow-x: hidden;
+}
+
+.header {
+    background: #ffffff;
+    padding: 10px 20px;
+    color: rgb(20, 33, 222);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.header img {
+    margin-right: 20px;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+}
+
+.nav-icon {
+    margin: 0 10px;
+    padding: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.nav-icon img {
+    width: 23px;
+    height: 23px;
+}
+
+.nav-icon:hover {
+    transform: scale(1.2);
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-box {
+    padding: 5px;
+    border: none;
+    border-radius: 20px;
+    background: #f0f2f5;
+    margin-right: 10px;
+}
+
+.message-container {
+    position: relative;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.message-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.message-count {
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+}
+
+.profile-icon {
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* Main Container */
+.main-container {
+    display: flex;
+    margin-top: 80px;
+    height: calc(100vh - 80px);
+    overflow: hidden;
+    background: #f0f2f5;
+    padding: 20px;
+}
+
+.sidebar {
+    width: 15%;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background: #f0f2f5;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.sidebar h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#chats-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#chats-list li {
+    padding: 10px;
+    margin-bottom: 10px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#chats-list li:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-container {
+    width: 60%;
+    padding: 20px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    height: calc(100vh - 80px);
+}
+
+.chat-message {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #e9ecef;
+    border-radius: 5px;
+    word-wrap: break-word;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.chat-message.user {
+    background: #007bff;
+    color: white;
+    align-self: flex-end;
+}
+
+.chat-message.other {
+    align-self: flex-start;
+}
+
+.chat-message {
+    display: flex;
+    align-items: center;
+}
+
+.chat-message img {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chat-message span {
+    font-size: 0.9em;
+}
+
+#chat-input {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: calc(100% - 100px);
+    border-radius: 20px;
+    outline: none;
+    margin-right: 10px;
+}
+
+#chat-form {
+    display: flex;
+    align-items: center;
+}
+
+#record-btn {
+    border: none;
+    color: white;
+    background-color: #28a745;
+    border-radius: 20px;
+    padding: 8px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#record-btn:hover {
+    background-color: #218838;
+}
+
+#record-btn:before {
+    content: '🎤';
+    margin-right: 5px;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.logout-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    
+    margin-right: 30px; /* Puedes ajustar este valor para mover más o menos el botón */
+}
+
+
+.logout-container img {
+    width: 50px;
+    height: 50px;
+}
+
+.logout-container:hover img {
+    transform: scale(1.2);
+    transition: transform 0.2s;
+}

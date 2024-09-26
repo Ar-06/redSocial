@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat con Usuario2</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Chat con Usuario2</h1>
+        <a href="index.html">Regresar</a>
+    </div>
+    <div class="chat-container">
+        <div id="chat-messages"></div>
+        <form id="chat-form">
+            <input type="text" id="chat-input" placeholder="Escribe un mensaje..." required>
+            <button type="submit">Enviar</button>
+            <button type="button" id="record-btn">🎤 Grabar Audio</button>
+        </form>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/chat.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (!urlParams.has('chat')) {
+                urlParams.set('chat', 'chat2');
+                history.replaceState(null, null, "?" + urlParams.toString());
+                window.location.reload();
+            }
+        });
+    </script>
+</body>
+</html>

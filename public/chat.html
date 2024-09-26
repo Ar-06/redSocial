@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="header">
+        <img src="images/SIMBO.png" width="4.5%" height="143%" >
+        <div class="nav-icons">
+            <div class="nav-icon active">
+                <a href="index.html">
+                    <img src="images/hogar.png" width="100%" alt="Home">
+                </a>
+            </div>
+            <div class="nav-icon">
+                <img src="images/tocar.png" alt="Videos">
+            </div>
+            <div class="nav-icon">
+                <img src="images/bolsa-de-la-compra.png" alt="Marketplace">
+            </div>
+            <div class="nav-icon">
+                <a href="sistemas2.html">
+                    <img src="images/usuarios-alt.png" alt="Groups">
+                </a>
+            </div>
+            <div class="nav-icon">
+                <img src="images/siguiendo.png" alt="Games">
+            </div>
+        </div>
+        <div class="search-container">
+            <form action="/buscar" method="GET">
+                <input type="text" class="search-box" name="codigo" placeholder="Buscar...">
+            </form>
+            <div class="message-container" onclick="location.href='/messages'">
+                <img src="images/mensaje.png" width="30" height="30" alt="Mensajes" class="message-icon">
+                <span id="message-count" class="message-count">0</span>
+            </div>
+            <a href="perfil.html" class="profile-link">
+                <img id="header-photo" src="images/usuario.png" width="60" height="60" alt="Perfil" class="profile-icon">
+            </a>
+        </div>
+        <div class="logout-container" onclick="logout()">
+            <img src="images/salida 3.png" alt="Cerrar sesión" width="30" height="30">
+        </div>
+    </div>
+  <div class="chat-container">
+    <div id="chat-messages"></div>
+    <form id="chat-form">
+      <input type="text" id="chat-input" placeholder="Escribe un mensaje..." required>
+      <button type="submit">Enviar</button>
+      <button type="button" id="record-btn">🎤 Grabar Audio</button>
+    </form>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/chat.js"></script>
+  <script>
+        function logout() {
+            fetch('/logout', {
+            method: 'POST',
+            }).then(response => {
+            if (response.ok) {
+                window.location.href = '/login.html';
+            }
+            }).catch(error => {
+            console.error('Error al cerrar sesión:', error);
+            });
+        }
+
+     async function loadProfilePhoto() {
+        try {
+            const response = await fetch('/currentUser');
+            if (response.ok) {
+                const user = await response.json();
+                // Asigna la foto de perfil si existe, de lo contrario usa la imagen predeterminada
+                document.getElementById('header-photo').src = user.photo || 'images/usuario.png';
+            }
+        } catch (error) {
+            console.error('Error al cargar la foto de perfil:', error);
+        }
+     }
+
+     document.addEventListener('DOMContentLoaded', loadProfilePhoto);
+  </script>
+</body>
+</html>

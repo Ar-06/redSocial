@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Usuario</title>
+    <link rel="stylesheet" href="css/registro.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="register-card">
+            <h2>Bienvenido, registrate! 🥳</h2>
+            <div class="form-image-container">
+                <form id="registro-form" action="/register" method="POST">
+                    <div class="form-group">
+                        <input type="text" id="nombre" name="nombre" placeholder="Nombres" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="apellido" name="apellido" placeholder="Apellidos" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="codigo" name="codigo" placeholder="Código Institucional" required>
+                    </div>
+                    <div class="form-group password-container">
+                        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                        <span class="toggle-password"><i class="fa-regular fa-eye-slash"></i></span>
+                    </div>
+                    <button type="submit">Registrar</button>
+                </form>
+                <div class="image">
+                    <img src="./images/registerImage.png" alt="students">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('registro-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                alert('Registro exitoso');
+                window.location.href = '/login.html';
+            } else {
+                alert('Error al registrar');
+            }
+        });
+
+        document.querySelector('.toggle-password').addEventListener('click', function () {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="fa-regular fa-eye-slash"></i>' : '<i class="icon fa-regular fa-eye"></i>';
+
+        });
+    </script>
+</body>
+</html>

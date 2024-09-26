@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+            </svg>              
+            <h2>Inicia Sesión</h2>
+            <form id="login-form" action="/login" method="POST">
+                <div class="form-group">
+                    <input type="text" id="codigo" name="codigo" placeholder="Código Institucional" required>
+                </div>
+                <div class="form-group password-container">
+                    <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                    <span class="toggle-password"><i class="fa-regular fa-eye-slash"></i></span>
+                </div>
+                <button type="submit">Iniciar Sesión</button>
+                <a class="forgot-password" href="#">¿Olvidaste tu contraseña?</a>
+                <a class="forgot-password" href="registro.html">¿No tienes una cuenta? Regístrate</a>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.querySelector('.toggle-password').addEventListener('click', function () {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="fa-regular fa-eye-slash"></i>' : '<i class="icon fa-regular fa-eye"></i>';
+        });
+    </script>
+</body>
+</html>

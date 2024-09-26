@@ -1,0 +1,125 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f0f2f5;
+    overflow-x: hidden; 
+}
+
+.header {
+    background: #ffffff;
+    padding: 10px 20px;
+    color: rgb(20, 33, 222);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    font-family: Arial, sans-serif;
+}
+
+.header img {
+    margin-right: 20px;
+}
+
+/* Chat specific styles */
+.chat-container {
+    background: white;
+    padding: 20px;
+    margin: 80px auto 20px; /* Ajustar el margen superior para la cabecera fija */
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    width: 80%;
+}
+
+#chat-messages {
+    border: 1px solid #ccc;
+    height: 500px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.chat-message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #f1f0f0;
+}
+
+.chat-message.user {
+    background: #e6f7ff;
+}
+
+.chat-message.other {
+    background: #f1f0f0;
+}
+
+#chat-input {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: calc(100% - 100px);
+    border-radius: 20px;
+    outline: none;
+    margin-right: 10px;
+}
+
+#chat-form {
+    display: flex;
+    align-items: center;
+}
+
+#record-btn {
+    border: none;
+    color: white;
+    background-color: #28a745;
+    border-radius: 20px;
+    padding: 8px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#record-btn:hover {
+    background-color: #218838;
+}
+
+#record-btn:before {
+    content: '🎤';
+    margin-right: 5px;
+}
+
+button {
+    border: none;
+    color: white;
+    background-color: #007BFF;
+    border-radius: 20px;
+    padding: 8px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.logout-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    
+    margin-right: 30px; /* Puedes ajustar este valor para mover más o menos el botón */
+}
+
+
+.logout-container img {
+    width: 50px;
+    height: 50px;
+}
+
+.logout-container:hover img {
+    transform: scale(1.2);
+    transition: transform 0.2s;
+}

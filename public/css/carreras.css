@@ -1,0 +1,497 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f0f2f5;
+    overflow-x: hidden; /* Evita que el cuerpo se deslice horizontalmente */
+}
+
+.header {
+    background: #ffffff;
+    padding: 5px 20px;
+    color: rgb(20, 33, 222);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Fija la cabecera */
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    font-family: Arial, sans-serif;
+}
+
+.header img {
+    margin-right: 20px;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+}
+
+.nav-icon {
+    margin: 0 10px;
+    padding: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.nav-icon img {
+    width: 23px;
+    height: 23px;
+}
+
+.nav-icon:hover {
+    transform: scale(1.2);
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-box {
+    padding: 5px;
+    border: none;
+    border-radius: 20px;
+    background: #f0f2f5;
+    margin-right: 10px;
+}
+
+.message-container {
+    position: relative;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.message-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.message-count {
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+}
+
+.profile-icon {
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* Main Content */
+.content-dos {
+    width: 40%;
+    padding: 120px;
+    border-radius: 10px;
+    margin: 0 auto;
+    overflow-y: auto;
+    height: calc(100vh - 80px); /* Ajusta la altura para el espacio restante */
+}
+
+h5 {
+    margin: 0 0 10px;
+    font-size: 50px;
+    background: -webkit-linear-gradient(to right, rgb(0, 0, 0) 50%, rgb(255, 213, 0) 50%);
+    background: linear-gradient(to right, rgb(0, 0, 0) 44%, rgb(255, 213, 0) 50%);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.post-input-container {
+    background: white;
+    padding: 20px;
+    margin: 30px auto 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 80%;
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+#post-input {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 1em;
+    outline: none;
+    width: calc(100% - 150px);
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    justify-content: flex-end;
+}
+
+.custom-file-upload {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-right: 400px;
+}
+
+.custom-file-upload img {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+}
+
+#image-upload {
+    display: none;
+}
+
+#image-preview {
+    display: none;
+    width: 100px;
+    height: 100px;
+    margin-left: 10px;
+    object-fit: cover;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Sidebar */
+.sidebar-dos {
+    width: 12%;
+    background: #f0f2f5;
+    padding: 80px;
+    border-radius: 10px;
+    position: fixed;
+    top: 30px; 
+    bottom: 0; 
+    overflow-y: auto; 
+    left: 0;
+}
+
+.sidebar-dos::-webkit-scrollbar {
+    width: 8px; 
+    background: transparent;
+}
+
+.sidebar-dos img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.sidebar-dos ul {
+    list-style: none;
+}
+
+.sidebar-dos .aside-title {
+    font-size: 20px;
+    margin-top: 20px;
+    color: rgb(107, 114, 128);
+}
+
+.sidebar-dos a {
+    display: block;
+    color: #333;
+    margin-top: 10px;
+    padding: 5px; 
+    transition: 0.3s all;
+    background-color: transparent; 
+    border-radius: 5px; 
+    text-decoration: none;
+    margin-left: -42px;
+    padding-left: -42px;
+}
+
+.sidebar-dos a:hover {
+    text-decoration: none;
+    background-color: #E4E6E9;
+}
+
+.aside-years .icon {
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+    color: #1877f2;
+}
+
+.icon {
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+}
+
+.nio {
+    margin-top: 20px;
+}
+
+.news-list {
+    list-style-type: none;
+    padding: 0;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.news-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.news-list li a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.news-list li img {
+    width: 35px;
+    height: 35px;
+    transition: transform 0.3s ease;
+}
+
+/* Rating Section */
+.rating-section {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.rating-section h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.stars {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.star {
+    font-size: 30px;
+    color: #ffd700;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.star:hover {
+    transform: scale(1.2);
+}
+
+.aside {
+    width: 300px;
+    border-radius: 8px;
+    right: 0;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    position: fixed;
+    top: 100px;
+    background-color: #eceaea7c;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.aside-content {
+    padding: 20px;
+}
+
+.aside-content h2 {
+    font-size: 20px;
+    margin-left: 10px;
+    margin-bottom: 16px;
+    color: #050505;
+}
+
+.question-card {
+    background-color: #f0f2f5;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+.question-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.question-icon {
+    color: #1877f2;
+    margin-right: 8px;
+}
+
+.question-title {
+    font-weight: bold;
+    color: #050505;
+}
+
+.answer-button {
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.answer-button:hover {
+    background-color: #166fe5;
+}
+
+.more-questions {
+    text-align: center;
+    margin-top: 16px;
+}
+
+.more-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.more-link:hover {
+    text-decoration: underline;
+}
+
+.logout-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 30px; /* Ajusta este valor para mover más o menos el botón */
+}
+
+.logout-container img {
+    width: 50px;
+    height: 50px;
+}
+
+.logout-container:hover img {
+    transform: scale(1.2);
+    transition: transform 0.2s;
+}
+
+/* Nuevos estilos */
+.title-derecho {
+    margin-left: 260px;
+    background: linear-gradient(to right, #2e3a46 30%, #6b778d 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; 
+    color: transparent; 
+}
+
+.titleAdmin {
+    margin-left: 200px;
+    background: linear-gradient(to right, #1d1e1e 20%, #df0d0a 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; 
+    color: transparent; 
+}
+
+.tittleConta {
+    margin-left: 200px;
+    background: linear-gradient(to right, #052f4d 20%, #df0d0a 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; 
+    color: transparent; 
+}
+
+.titlePesquera {
+    margin-left: 250px;
+    background: linear-gradient(to right, #050505 20%, #4aa6f1 30%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; 
+    color: transparent; 
+}
+
+.titleAmbiental {
+    margin-left: 250px;
+    background: linear-gradient(to right, #050505 20%, #2d6f0a 30%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; 
+    color: transparent; 
+}
+
+.titleCivil {
+    margin-left: 300px;
+    background: linear-gradient(to right, #050505 5%, #0a166f 10%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; 
+    color: transparent; 
+}
+
+.titleAgro {
+    margin-left: 200px;
+    background: linear-gradient(to right, #050505 5%, #0a6f17 40%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; 
+    color: transparent; 
+}
+
+.titleGestion {
+    margin-left: 79px;
+    font-size: 35px;
+    background: linear-gradient(to right, #050505 5%, #6f0f0a 40%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; 
+    color: transparent; 
+}
+
+.titleMedicina {
+    margin-left: 250px;
+    background: linear-gradient(to right, #050505 5%, #0d61e9 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; 
+    color: transparent; 
+}
+
+.titleMinas {
+    margin-left: 290px;
+    background: linear-gradient(to right, #050505 5%, #484E77 20%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; 
+    color: transparent; 
+}

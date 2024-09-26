@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="css/perfil.css">
+</head>
+<body>
+
+    <aside class="sidebar-tres">
+        <img  src="images/file.png" alt="Perfil" >
+        
+    </aside>
+    <div class="header">
+        <img src="images/SIMBO.png" width="4.5%" height="143%" >
+        <div class="nav-icons">
+            <div class="nav-icon active">
+                <a href="index.html">
+                    <img src="images/hogar.png" width="100%" alt="Home">
+                </a>
+            </div>
+            <div class="nav-icon">
+                <img src="images/tocar.png" alt="Videos">
+            </div>
+            <div class="nav-icon">
+                <img src="images/bolsa-de-la-compra.png" alt="Marketplace">
+            </div>
+            <div class="nav-icon">
+                <a href="sistemas2.html">
+                    <img src="images/usuarios-alt.png" alt="Groups">
+                </a>
+            </div>
+            <div class="nav-icon">
+                <img src="images/siguiendo.png" alt="Games">
+            </div>
+        </div>
+        <div class="search-container">
+            <form action="/buscar" method="GET">
+                <input type="text" class="search-box" name="codigo" placeholder="Buscar...">
+            </form>
+            <div class="message-container" onclick="location.href='/messages'">
+                <img src="images/mensaje.png" width="30" height="30" alt="Mensajes" class="message-icon">
+                <span id="message-count" class="message-count">0</span>
+            </div>
+            <a href="perfil.html" class="profile-link">
+                <img id="header-photo" src="images/usuario.png" width="60" height="60" alt="Perfil" class="profile-icon">
+            </a>
+        </div>
+        <div class="logout-container" onclick="logout()">
+            <img src="images/salida 3.png" alt="Cerrar sesión" width="30" height="30">
+        </div>
+    </div>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-photo-container">
+                <img id="profile-photo" src="" alt="Foto de perfil" class="profile-photo">
+                <p class="profile-code" id="profile-code"></p>
+            </div>
+            <div class="profile-details">
+                <h2 id="profile-name"></h2>
+                <input type="text" id="edit-name" class="edit-name-input" style="display:none;">
+                <input type="file" id="edit-photo" style="display:none;" accept="image/*">
+                <button class="edit-profile-button" onclick="editProfile()" style="display:none;">Editar perfil</button>
+                <button class="back-button" onclick="goBack()">Regresar</button>
+                <button class="message-button" onclick="startChat()"> 💬 Mensaje</button>
+            </div>
+        </div>
+        
+        
+
+        <!-- Nueva sección de puntos -->
+        <div class="points-container">
+            <div class="points-card">
+                <div class="points-front">
+                    <span class="points-number">0</span>
+                    <span class="points-label">puntos</span>
+                </div>
+                <div class="points-back">
+                    <span class="role-title">Novato</span>
+                    <span class="role-label">Rol</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de publicación -->
+        <div class="post-input-container" id="post-input-container" style="display: none;">
+            <form id="user-post-form" enctype="multipart/form-data">
+                <input type="text" id="user-post-input" name="text" placeholder="¿Qué quieres compartir?">
+                <div class="post-actions">
+                    <label for="user-image-upload" class="custom-file-upload">
+                        <img src="images/publi.png" width="30" height="30" alt="Icono"> Foto/video
+                    </label>
+                    <input type="file" id="user-image-upload" name="image" accept="image/*" onchange="previewUserImage()">
+                    <img id="user-image-preview" src="" alt="Vista previa de la imagen" style="display:none; width: 100px; height: 100px;">
+                    <button type="submit">Publicar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Nueva sección Sobre mí -->
+    <div class="about-me-container">
+        <h3>Notas </h3>
+        <textarea id="about-me-text" class="edit-about-me-input" rows="4" cols="50" placeholder="Escribe algo sobre ti..." disabled></textarea>
+        <button class="save-about-me-button" id="about-me-btn" onclick="toggleEditAboutMe()" style="display:none;">Editar</button>
+    </div>
+    
+    <div id="user-posts-container" class="user-posts-container"></div>
+
+    <!-- Modal de Vista Previa de Imagen -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+        <div id="caption"></div>
+    </div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        async function editProfile() {
+            const nameField = document.getElementById('profile-name');
+            const editField = document.getElementById('edit-name');
+            const photoField = document.getElementById('edit-photo');
+            const editButton = document.querySelector('.edit-profile-button');
+
+            if (editField.style.display === 'none') {
+                editField.style.display = 'block';
+                photoField.style.display = 'block';
+                editField.value = nameField.textContent;
+                nameField.style.display = 'none';
+                editButton.textContent = 'Guardar';
+            } else {
+                const formData = new FormData();
+                formData.append('nombre', editField.value.split(" ")[0]);
+                formData.append('apellido', editField.value.split(" ").slice(1).join(" "));
+                if (photoField.files[0]) {
+                    formData.append('profilePhoto', photoField.files[0]);
+                }
+
+                try {
+                    const response = await fetch('/updateProfile', {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        nameField.textContent = `${editField.value.split(" ")[0]} ${editField.value.split(" ").slice(1).join(" ")}`;
+                        if (photoField.files[0]) {
+                            const photoUrl = URL.createObjectURL(photoField.files[0]);
+                            document.getElementById('profile-photo').src = photoUrl;
+                            document.getElementById('header-photo').src = photoUrl; // Actualizar también en el header
+                        }
+                        editField.style.display = 'none';
+                        photoField.style.display = 'none';
+                        nameField.style.display = 'block';
+                        editButton.textContent = 'Editar perfil';
+                    } else {
+                        const errorData = await response.json();
+                        alert('Error al actualizar el perfil: ' + errorData.error);
+                    }
+                } catch (error) {
+                    alert('Error al actualizar el perfil: ' + error.message);
+                }
+            }
+        }
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        function toggleEditAboutMe() {
+            var aboutMeText = document.getElementById('about-me-text');
+            var button = document.querySelector('.save-about-me-button');
+
+            if (button.textContent === 'Editar') {
+                // Cambiar a modo de edición
+                aboutMeText.disabled = false;  // Habilita el textarea
+                button.textContent = 'Guardar';  // Cambia el texto del botón a "Guardar"
+            } else {
+                // Guardar los cambios y cambiar a modo de visualización
+                aboutMeText.disabled = true;  // Deshabilita el textarea
+                button.textContent = 'Editar';  // Cambia el texto del botón a "Editar"
+
+                // Llama a la función para guardar los cambios en la base de datos
+                saveAboutMe();
+            }
+        }
+
+        function saveAboutMe() {
+            var aboutMeText = document.getElementById('about-me-text').value;
+
+            fetch('/updateAboutMe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ aboutMe: aboutMeText })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Información "Sobre mí" actualizada con éxito.');
+                } else {
+                    response.text().then(text => {
+                        alert('Error al actualizar la información: ' + text);
+                    });
+                }
+            })
+            .catch(error => {
+                alert('Error al actualizar la información: ' + error.message);
+            });
+        }
+
+        async function startChat() {
+            const userCode = document.getElementById('profile-code').textContent;
+
+            try {
+                const currentUserResponse = await fetch('/currentUser');
+                if (!currentUserResponse.ok) {
+                    throw new Error('Error al obtener el usuario actual');
+                }
+
+                const currentUser = await currentUserResponse.json();
+
+                const response = await fetch('/createChat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ user1: currentUser.codigo, user2: userCode })
+                });
+
+                if (!response.ok) {
+                    throw new Error(await response.text());
+                }
+
+                const chat = await response.json();
+                window.location.href = `/chat.html?chatId=${chat._id}`;
+            } catch (error) {
+                alert('Error al iniciar el chat: ' + error.message);
+            }
+        }
+
+        function previewUserImage() {
+            const file = document.getElementById('user-image-upload').files[0];
+            const preview = document.getElementById('user-image-preview');
+            const reader = new FileReader();
+
+            reader.onloadend = function () {
+                preview.src = reader.result;
+                preview.style.display = 'block';
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+                preview.style.display = 'none';
+            }
+        }
+
+        function showPostPreview(post) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('img01');
+            const captionText = document.getElementById('caption');
+            
+            modal.style.display = "block";
+            modalImg.src = post.image;
+            captionText.innerHTML = post.text;
+
+            const closeBtn = document.getElementsByClassName('close')[0];
+            closeBtn.onclick = function() { 
+                modal.style.display = "none";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const codigo = urlParams.get('codigo');
+
+                const currentUserResponse = await fetch('/currentUser');
+                if (!currentUserResponse.ok) {
+                    throw new Error('Error al obtener el usuario actual');
+                }
+                const currentUser = await currentUserResponse.json();
+
+                if (codigo) {
+                    const response = await fetch(`/usuario?codigo=${codigo}`);
+                    if (response.ok) {
+                        const user = await response.json();
+                        document.getElementById('profile-name').textContent = `${user.nombre} ${user.apellido}`;
+                        document.getElementById('profile-code').textContent = user.codigo;
+                        document.getElementById('about-me-text').textContent = user.aboutMe;
+
+                        if (user.photo) {
+                            document.getElementById('profile-photo').src = user.photo;
+                            document.getElementById('header-photo').src = user.photo; // Actualizar también en el header
+                        }
+
+                        if (user.codigo === currentUser.codigo) {
+                            document.querySelector('.edit-profile-button').style.display = 'block';
+                            document.getElementById('post-input-container').style.display = 'block';
+                            document.getElementById('about-me-btn').style.display = 'block';
+                        }
+
+                        const postsResponse = await fetch(`/getUserPosts/${user._id}`);
+                        const posts = await postsResponse.json();
+                        posts.forEach(post => addUserPostToDOM(post));
+                    } else {
+                        alert('Error al cargar los datos del usuario');
+                    }
+                } else {
+                    document.querySelector('.edit-profile-button').style.display = 'block';
+                    document.getElementById('post-input-container').style.display = 'block';
+                    document.getElementById('about-me-btn').style.display = 'block';
+                    const user = currentUser;
+                    document.getElementById('profile-name').textContent = `${user.nombre} ${user.apellido}`;
+                    document.getElementById('profile-code').textContent = user.codigo;
+                    document.getElementById('about-me-text').textContent = user.aboutMe;
+
+                    if (user.photo) {
+                        document.getElementById('profile-photo').src = user.photo;
+                        document.getElementById('header-photo').src = user.photo; // Actualizar también en el header
+                    }
+
+                    const postsResponse = await fetch(`/getUserPosts/${user._id}`);
+                    const posts = await postsResponse.json();
+                    posts.forEach(post => addUserPostToDOM(post));
+                }
+            } catch (error) {
+                alert('Error al cargar los datos del usuario: ' + error.message);
+            }
+
+            // Form submission for new posts
+            document.getElementById('user-post-form').addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const formData = new FormData(this);
+
+                const response = await fetch('/addUserPost', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const post = await response.json();
+                    addUserPostToDOM(post);
+                    this.reset(); // Clear the form
+                    document.getElementById('user-image-preview').style.display = 'none'; // Hide image preview
+                } else {
+                    alert('Error al publicar');
+                }
+            });
+        });
+
+        function addUserPostToDOM(post) {
+            const postElement = document.createElement('div');
+            postElement.classList.add('post');
+            postElement.innerHTML = `
+                ${post.image ? `<img src="${post.image}" alt="Imagen de la publicación">` : ''}
+            `;
+            postElement.addEventListener('click', () => showPostPreview(post));
+            document.getElementById('user-posts-container').prepend(postElement);
+        }
+
+        function logout() {
+            fetch('/logout', {
+                method: 'POST',
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = '/login.html';
+                }
+            }).catch(error => {
+                console.error('Error al cerrar sesión:', error);
+            });
+        }
+    </script>
+</body>
+</html>

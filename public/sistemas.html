@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistemas e Informatica</title>
+    <link rel="stylesheet" href="css/carreras.css">
+</head>
+<body>
+    <div class="header">
+        <img src="images/SIMBO.png" width="4.5%" height="143%">
+        <div class="nav-icons">
+            <div class="nav-icon active">
+                <a href="index.html">
+                    <img src="images/hogar.png" width="100%" alt="Home">
+                </a>
+            </div>
+            <div class="nav-icon">
+                <img src="images/tocar.png" alt="Videos">
+            </div>
+            <div class="nav-icon">
+                <img src="images/bolsa-de-la-compra.png" alt="Marketplace">
+            </div>
+            <div class="nav-icon">
+                <a href= "sistemas.html"><img src="images/usuarios-alt.png" alt="Groups"></a>
+            </div>
+            <div class="nav-icon">
+                <img src="images/siguiendo.png" alt="Games">
+            </div>
+        </div>
+        <div class="search-container">
+            <form action="/buscar" method="GET">
+                <input type="text" class="search-box" name="codigo" placeholder="Buscar...">
+                
+            </form>
+            <div class="message-container" onclick="location.href='/messages'">
+                <img src="images/mensaje.png" width="30" height="30" alt="Mensajes" class="message-icon">
+                <span id="message-count" class="message-count">0</span>
+            </div>
+            <a href="perfil.html" class="profile-link">
+                <img src="images/usuario.png" width="60" height="60" alt="Perfil" class="profile-icon">
+            </a>
+        </div>
+    </div>
+
+    <div class="content-dos">
+        <h5> &nbsp; &nbsp; &nbsp; Sistemas e Informatica</h2>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <p class="info"> </p> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <div class="post-input-container"> <!--CAMBIAR DESPUES-->
+            <img class="profile-pic" src="images/file.png" alt="Perfil">
+            <form id="post-form" enctype="multipart/form-data">
+                <input type="hidden" id="user" name="user" value="UsuarioActual">
+                <input type="text" id="post-input" name="text" placeholder="¿Qué tienes en mente, usuario?">
+                
+                <div class="post-actions">
+                    <label for="image-upload" class="custom-file-upload">
+                        <img src="images/fotosyvideo.png" alt="Icono"> Foto/video
+                    </label>
+                    <input type="file" id="image-upload" name="image" accept="image/*" onchange="previewImage()">
+                    <img id="image-preview" src="" alt="Vista previa de la imagen" style="display:none;">
+                    <button type="submit">Publicar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="sidebar-dos">
+       <a> <img  src="images/file.png" width="150%" height="40%"  alt="Perfil" ></a> &nbsp; &nbsp; &nbsp; &nbsp;
+       
+       <div class="nio">
+            <ul class="news-list">
+                
+                <li><a href="emprendimientos.html"><img src="images/graduacion.png"  alt="Emprendimiento">&nbsp; Academico </a></li>&nbsp;
+                <li><a href="proyectos.html"><img src="images/comedia.png" alt="Proyectos"> &nbsp;Social</a></li>&nbsp;
+        </div>
+    </div>
+    <div class="rating-section">
+        <h3>¿Qué te ha parecido el contenido?</h3>
+        <div class="stars">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

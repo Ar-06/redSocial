@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajes</title>
+    <link rel="stylesheet" href="css/messages.css">
+</head>
+<body>
+    <div class="header">
+        <img src="images/SIMBO.png" width="4.5%" height="143%" >
+        <div class="nav-icons">
+            <div class="nav-icon active">
+                <a href="index.html">
+                    <img src="images/hogar.png" width="100%" alt="Home">
+                </a>
+            </div>
+            <div class="nav-icon">
+                <img src="images/tocar.png" alt="Videos">
+            </div>
+            <div class="nav-icon">
+                <img src="images/bolsa-de-la-compra.png" alt="Marketplace">
+            </div>
+            <div class="nav-icon">
+                <a href="sistemas2.html">
+                    <img src="images/usuarios-alt.png" alt="Groups">
+                </a>
+            </div>
+            <div class="nav-icon">
+                <img src="images/siguiendo.png" alt="Games">
+            </div>
+        </div>
+        <div class="search-container">
+            <form action="/buscar" method="GET">
+                <input type="text" class="search-box" name="codigo" placeholder="Buscar...">
+            </form>
+            <div class="message-container" onclick="location.href='/messages'">
+                <img src="images/mensaje.png" width="30" height="30" alt="Mensajes" class="message-icon">
+                <span id="message-count" class="message-count">0</span>
+            </div>
+            <a href="perfil.html" class="profile-link">
+                <img id="header-photo" src="images/usuario.png" width="60" height="60" alt="Perfil" class="profile-icon">
+            </a>
+        </div>
+        <div class="logout-container" onclick="logout()">
+            <img src="images/salida 3.png" alt="Cerrar sesión" width="30" height="30">
+        </div>
+    </div>
+
+<div class="main-container">
+    <div class="sidebar">
+        <h2>Mensajes</h2>
+        <ul id="chats-list"></ul>
+    </div>
+    <div class="chat-container" id="chat-container">
+        <h3>Selecciona un chat para ver los mensajes</h3>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+    const socket = io();
+
+    try {
+        const currentUserResponse = await fetch('/currentUser');
+        if (!currentUserResponse.ok) {
+            throw new Error('Error al obtener el usuario actual');
+        }
+        const currentUser = await currentUserResponse.json();
+
+        const response = await fetch(`/getChats/${currentUser._id}`);
+        if (!response.ok) {
+            throw new Error('Error al cargar los chats');
+        }
+        const chats = await response.json();
+
+        const chatsList = document.getElementById('chats-list');
+        const chatContainer = document.getElementById('chat-container');
+
+        chats.forEach(chat => {
+            const chatUser = chat.users.find(user => user._id !== currentUser._id);
+            if (chatUser) {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${chatUser.nombre} ${chatUser.apellido}`;
+                listItem.onclick = async () => {
+                    const messagesResponse = await fetch(`/messages/${chat._id}`);
+                    if (!messagesResponse.ok) {
+                        alert('Error al cargar los mensajes');
+                        return;
+                    }
+                    const messages = await messagesResponse.json();
+                    chatContainer.innerHTML = '';
+
+                    messages.forEach(message => {
+                        const messageElement = document.createElement('div');
+                        messageElement.classList.add('chat-message');
+                        if (message.user === `${currentUser.nombre} ${currentUser.apellido}`) {
+                            messageElement.classList.add('user');
+                        } else {
+                            messageElement.classList.add('other');
+                        }
+                        messageElement.innerHTML = `
+                            <img src="images/usuario.png" width="40" height="40">
+                            <span>${message.text}</span>
+                        `;
+                        chatContainer.appendChild(messageElement);
+                    });
+
+                    // Añadir el formulario de chat
+                    chatContainer.innerHTML += `
+                        <form id="chat-form">
+                            <input type="text" id="chat-input" placeholder="Escribe un mensaje..." required>
+                            <button type="submit">Enviar</button>
+                            <button type="button" id="record-btn">🎤 Grabar Audio</button>
+                        </form>
+                    `;
+
+                    // Manejar el envío del formulario de chat
+                    const chatForm = document.getElementById('chat-form');
+                    chatForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const input = document.getElementById('chat-input');
+                        const text = input.value;
+
+                        const response = await fetch('/addMessage', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                chatId: chat._id,
+                                user: currentUser.codigo,
+                                text: text,
+                                type: 'text'
+                            })
+                        });
+
+                        if (response.ok) {
+                            const message = await response.json();
+                            socket.emit('chat message', message);
+                            input.value = '';
+                        } else {
+                            alert('Error al enviar el mensaje');
+                        }
+                    });
+
+                    // Manejar el envío del mensaje en tiempo real
+                    socket.on('chat message', (msg) => {
+                        const messageElement = document.createElement('div');
+                        messageElement.classList.add('chat-message');
+                        if (msg.user === `${currentUser.nombre} ${currentUser.apellido}`) {
+                            messageElement.classList.add('user');
+                        } else {
+                            messageElement.classList.add('other');
+                        }
+                        messageElement.innerHTML = `
+                            <img src="images/usuario.png" width="40" height="40">
+                            <span>${msg.text}</span>
+                        `;
+                        chatContainer.appendChild(messageElement);
+                    });
+                };
+                chatsList.appendChild(listItem);
+            } else {
+                console.error('Usuario de chat no encontrado:', chat);
+            }
+        });
+    } catch (error) {
+        alert('Error al cargar los chats: ' + error.message);
+    }
+});
+   function logout() {
+            fetch('/logout', {
+            method: 'POST',
+            }).then(response => {
+            if (response.ok) {
+                window.location.href = '/login.html';
+            }
+            }).catch(error => {
+            console.error('Error al cerrar sesión:', error);
+            });
+   }
+   async function loadProfilePhoto() {
+        try {
+            const response = await fetch('/currentUser');
+            if (response.ok) {
+                const user = await response.json();
+                // Asigna la foto de perfil si existe, de lo contrario usa la imagen predeterminada
+                document.getElementById('header-photo').src = user.photo || 'images/usuario.png';
+            }
+        } catch (error) {
+            console.error('Error al cargar la foto de perfil:', error);
+        }
+     }
+
+     document.addEventListener('DOMContentLoaded', loadProfilePhoto);
+</script>
+</body>
+</html>

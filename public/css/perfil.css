@@ -1,0 +1,522 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #f0f2f5;
+    overflow-x: hidden; /* Evita que el cuerpo se deslice horizontalmente */
+}
+
+.header {
+    background: #ffffff;
+    padding: 5px 20px;
+    color: rgb(20, 33, 222);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Fija la cabecera */
+    width: 100%;
+    top: 0;
+    right: 1px;
+    left: 1px;
+    z-index: 1000;
+}
+
+.header img {
+    margin-right: 20px;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+}
+
+.nav-icon {
+    margin: 0 10px;
+    padding: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.nav-icon img {
+    width: 23px;
+    height: 23px;
+}
+
+.nav-icon:hover {
+    transform: scale(1.2);
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-box {
+    padding: 5px;
+    border: none;
+    border-radius: 20px;
+    background: #f0f2f5;
+    margin-right: 10px;
+}
+
+.message-container {
+    position: relative;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.message-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.message-count {
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+}
+
+.profile-icon {
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* Profile Container */
+.profile-container {
+    background: white;
+    padding: 20px;
+    margin: 100px auto 20px; /* Añadir margen superior para que no sea tapado */
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    width: 50%;
+    border-radius: 10px;
+    position: relative; /* Para que el texto "0 puntos" esté en la esquina superior derecha */
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-photo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+.profile-code {
+    color: blue;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.profile-details {
+    flex: 1;
+    text-align: left; 
+    font-family: inherit; 
+    font-size: 18px; 
+    background: #202020; 
+    -webkit-background-clip: text; 
+    -moz-background-clip: text; 
+    background-clip: text; 
+    color: transparent; 
+    text-shadow: 0px 3px 3px rgba(255,255,255,0.4),0px -1px 1px rgba(0,0,0,0.3);
+}
+
+.profile-details h2 {
+    margin: 0 0 10px 0;
+}
+
+.edit-name-input {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 75%;
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.edit-profile-button {
+    border: none;
+    font-size: 14px;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #007bff; /* Color base del botón */
+    transition: box-shadow 0.3s ease-in-out; /* Transición suave del efecto de sombra */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3); /* Aumenta el desplazamiento y la opacidad de la sombra */
+}
+
+.edit-profile-button:hover {
+    background: #0056b3;
+}
+
+.back-button {
+    border: none;
+    font-size: 14px;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #007bff;
+}
+
+.back-button:hover {
+    background: #0056b3;
+}
+
+.message-button {
+    background: #28a745;
+    font-size: 14px;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.message-button:hover {
+    background: #218838;
+}
+
+/* Post Input Container */
+.post-input-container {
+    background: white;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#user-post-input {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: calc(100% - 150px);
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.custom-file-upload {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.custom-file-upload img {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+}
+
+#user-image-upload {
+    display: none;
+}
+
+#user-image-preview {
+    display: none;
+    width: 100px;
+    height: 100px;
+    margin-left: 10px;
+    object-fit: cover;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Publicaciones */
+.user-posts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px; /* Espacio entre las publicaciones */
+    margin-top: 50px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    border-radius: 10px;
+    overflow-y: auto;
+    height: calc(40vh - 50px);
+    font-size: medium;
+    text-align: left;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    color: #000000;
+}
+
+.post {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    transition: box-shadow 0.3s;
+    cursor: pointer;
+    text-align: center;
+}
+
+.post:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.post img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Queda fijo en la pantalla */
+    z-index: 1; /* Se sitúa sobre los demás elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Alto completo */
+    overflow: auto; /* Agrega scroll si es necesario */
+    background-color: rgb(0,0,0); /* Color de fondo */
+    background-color: rgba(0,0,0,0.9); /* Negro con opacidad */
+    margin-top: 100px;
+    font-family: Arial, sans-serif;
+    color: #fff;
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    color: #fff;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-content, .close {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}
+
+.logout-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 30px; /* Ajusta este valor para mover más o menos el botón */
+}
+
+.logout-container img {
+    width: 50px;
+    height: 50px;
+}
+
+.logout-container:hover img {
+    transform: scale(1.2);
+    transition: transform 0.2s;
+}
+
+/* Puntos y Roles */
+.points-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 100px;
+    height: 60px;
+    perspective: 1000px; /* Perspectiva para el efecto 3D */
+}
+
+.points-card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer; /* Indica que es clicable */
+}
+
+.points-container:hover .points-card {
+    transform: rotateY(180deg); /* Gira la tarjeta al pasar el ratón */
+}
+
+.points-front, .points-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #8a9aff;
+    backface-visibility: hidden; /* Oculta el lado posterior cuando no está en vista */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 10%; /* Bordes redondeados */
+}
+
+.points-front {
+    transform: rotateY(0deg); /* Lado frontal */
+}
+
+.points-back {
+    transform: rotateY(180deg); /* Lado trasero */
+    background-color: #ffd9b3; /* Color de fondo diferente para el lado trasero */
+}
+
+.points-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.points-label {
+    font-size: 14px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.role-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.role-label {
+    font-size: 14px;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* Sobre mí */
+.about-me-container {
+    margin-top: 20px;
+    background: white;
+    padding: 20px;
+    margin: auto;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    width: 50%;
+    border-radius: 10px;
+}
+
+.about-me-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.edit-about-me-input {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    resize: none;
+    margin-bottom: 10px;
+}
+
+.save-about-me-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.save-about-me-button:hover {
+    background-color: #0056b3;
+}
+
+
+
+.career-logo {
+    width: 120px; /* Ajusta el tamaño del logo */
+    height: auto;
+    border-radius: 50%; /* Aplica un estilo circular si es necesario */
+    object-fit: cover; /* Mantiene la proporción de la imagen */
+}
+
+.sidebar-tres {
+    width: 12%;
+    background: #f0f2f5;
+    padding: 80px;
+    border-radius: 10px;
+    position: fixed;
+    top: 30px; 
+    bottom: 0; 
+    overflow-y:auto; 
+    left: 0;
+    font-size:40px;
+
+}
+
+.sidebar-tres img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+
+

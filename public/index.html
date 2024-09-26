@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Social Universitaria</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div class="header">
+        <img src="images/SIMBO.png" width="4.5%" height="143%">
+        <div class="nav-icons">
+            <div class="nav-icon active">
+                <a href="index.html">
+                    <img src="images/hogar.png" width="100%" alt="Home">
+                </a>
+            </div>
+            <div class="nav-icon">
+                <img src="images/tocar.png" alt="Videos">
+            </div>
+            <div class="nav-icon">
+                <img src="images/bolsa-de-la-compra.png" alt="Marketplace">
+            </div>
+            <div class="nav-icon" id="carreras-icon">
+                <img src="images/usuarios-alt.png" alt="Carreras">
+            </div>
+            <div class="nav-icon">
+                <img src="images/siguiendo.png" alt="Games">
+            </div>
+        </div>
+        <div class="search-container">
+            <form action="/buscar" method="GET">
+                <input type="text" class="search-box" name="codigo" placeholder="Buscar...">
+            </form>
+            <div class="message-container" onclick="location.href='/messages'">
+                <img src="images/mensaje.png" width="30" height="30" alt="Mensajes" class="message-icon">
+                <span id="message-count" class="message-count">0</span>
+            </div>
+            <a href="perfil.html" class="profile-link">
+                <img id="header-photo" src="images/usuario.png" width="60" height="60" alt="Perfil" class="profile-icon">
+            </a>
+        </div>
+        <div class="logout-container" onclick="logout()">
+            <img src="images/salida 3.png" alt="Cerrar sesión" width="30" height="30">
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="sidebar">
+            <h3></h3>&nbsp;
+            <ul class="news-list">
+                <li><a href="emprendimientos.html"><img src="images/emprende.png" alt="Emprendimiento">&nbsp; Emprendimiento</a></li>&nbsp;
+                <li><a href="proyectos.html"><img src="images/proyecto.png" alt="Proyectos"> &nbsp; Proyectos </a></li>&nbsp;
+                <li><a href="https://sigeun.unam.edu.pe/modulos/modaulavirtual/seguridad/login"><img src="images/unm.png" alt="Emprendimiento"> &nbsp; Aula virtual </a></li>&nbsp;
+                <li><a href="https://unam.edu.pe/dtelefonico/"><img src="images/calendariodos.png" alt="Proyectos"> &nbsp; Calendario </a></li>&nbsp;
+                <li><a href="https://unam.edu.pe/dtelefonico/"><img src="images/llamada.png" alt="Emprendimiento"> &nbsp; Contactos </a></li>&nbsp;
+                <li><a href="https://chatadmision.aimaralab.com/"><img src="images/robot.png" alt="Proyectos"> &nbsp; Asistente Virtual </a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <div class="post-input-container">
+                <img class="profile-pic" src="https://pbs.twimg.com/profile_images/1574484473005150210/CcCYI2Ga_400x400.jpg" alt="Perfil">
+                <form id="post-form" enctype="multipart/form-data">
+                    <input type="hidden" id="user" name="user" value="UsuarioActual">
+                    <input type="text" id="post-input" name="text" placeholder="¿Qué tienes en mente, usuario?">
+                    <select name="category" id="category">
+                        <option value="General">General</option>
+                        <option value="Emprendimientos">Emprendimientos</option>
+                    </select>
+                    <div class="post-actions">
+                        <label for="image-upload" class="custom-file-upload">
+                            <img src="images/fotosyvideo.png" width="30" height="30" alt="Icono"> Foto/video
+                        </label>
+                        <input type="file" id="image-upload" name="image" accept="image/*" onchange="previewImage()">
+                        <img id="image-preview" src="" alt="Vista previa de la imagen" style="display:none; width: 100px; height: 100px;">
+                        <button type="submit">Publicar</button>
+                    </div>
+                </form>
+            </div>
+            <div id="posts-container"></div>
+        </div>
+        <div class="right-bar">
+            <h3>Publicidad</h3>
+            <p>Aprovecha ahora</p>
+            <img src="images/kfc.jpeg" alt="Anuncio" class="ad-image"> &nbsp;
+            <img src="images/postre.webp" alt="Anuncio" class="ad-image">
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        async function getCurrentUser() {
+            try {
+                const response = await fetch('/usuario');
+                if (response.ok) {
+                    return await response.json();
+                } else {
+                    alert('Error al cargar los datos del usuario');
+                    return null;
+                }
+            } catch (error) {
+                alert('Error al cargar los datos del usuario');
+                return null;
+            }
+        }
+
+        function previewImage() {
+            const file = document.getElementById('image-upload').files[0];
+            const preview = document.getElementById('image-preview');
+            const reader = new FileReader();
+
+            reader.onloadend = function () {
+                preview.src = reader.result;
+                preview.style.display = 'block';
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+                preview.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const socket = io();
+            const currentUser = await getCurrentUser();
+
+            if (!currentUser) return; // Si no se pudo cargar el usuario, no continuar
+
+            const postForm = document.getElementById('post-form');
+            const postsContainer = document.getElementById('posts-container');
+
+            postForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(postForm);
+                formData.append('user', currentUser.nombre + ' ' + currentUser.apellido); // Añadir el nombre del usuario
+                formData.append('codigo', currentUser.codigo); // Añadir el código del usuario
+                const response = await fetch('/addPost', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    const post = await response.json();
+                    addPostToDOM(post);
+                    postForm.reset(); // Limpiar el formulario
+                    document.getElementById('image-preview').style.display = 'none'; // Ocultar la vista previa de la imagen
+                } else {
+                    alert('Error al publicar');
+                }
+            });
+
+            socket.on('new post', (post) => {
+                addPostToDOM(post);
+            });
+
+            socket.on('new comment', ({ postId, comment }) => {
+                addCommentToDOM(postId, comment);
+            });
+
+            socket.on('new message', (message) => {
+                addNotification(message);
+            });
+
+            function addPostToDOM(post) {
+                const postElement = document.createElement('div');
+                postElement.classList.add('post');
+                postElement.innerHTML = `
+                    <div class="post-header">
+                        <img class="profile-pic" src="${post.photo || 'images/usuario.png'}" alt="Perfil">
+                        <div>
+                            <a href="perfil.html?codigo=${post.codigo}" class="post-username">${post.user}</a>
+                            <span class="post-timestamp">${new Date(post.timestamp).toLocaleString()}</span>
+                        </div>
+                    </div>
+                    <p>${post.text}</p>
+                    ${post.image ? `<img src="${post.image}" alt="Imagen de la publicación">` : ''}
+                    <div class="comments" id="comments-${post._id}">
+                        ${post.comments.slice(0, 3).map(comment => `
+                            <div class="comment">
+                                <p>${comment.user}: ${comment.text}</p>
+                                <span>${new Date(comment.timestamp).toLocaleString()}</span>
+                            </div>
+                        `).join('')}
+                        ${post.comments.length > 3 ? `<div class="show-more" data-post-id="${post._id}">Mostrar más</div>` : ''}
+                    </div>
+                    <form class="comment-form" data-post-id="${post._id}">
+                        <input type="text" name="comment" placeholder="Escribe un comentario...">
+                        <button type="submit">Comentar</button>
+                    </form>
+                `;
+                postsContainer.prepend(postElement);
+
+                const commentForms = document.querySelectorAll('.comment-form');
+                commentForms.forEach(form => {
+                    form.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const postId = form.getAttribute('data-post-id');
+                        const commentText = form.querySelector('input[name="comment"]').value;
+
+                        const response = await fetch(`/addComment/${postId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ user: currentUser.nombre + ' ' + currentUser.apellido, text: commentText })
+                        });
+
+                        if (response.ok) {
+                            const comment = await response.json();
+                            addCommentToDOM(postId, comment);
+                            socket.emit('new comment', { postId, comment });
+                            form.querySelector('input[name="comment"]').value = ''; // Limpiar el campo de comentario
+                        } else {
+                            alert('Error al comentar');
+                        }
+                    });
+                });
+
+                const showMoreButtons = document.querySelectorAll('.show-more');
+                showMoreButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const postId = button.getAttribute('data-post-id');
+                        const commentsContainer = document.getElementById(`comments-${postId}`);
+                        const hiddenComments = post.comments.slice(3).map(comment => `
+                            <div class="comment">
+                                <p>${comment.user}: ${comment.text}</p>
+                                <span>${new Date(comment.timestamp).toLocaleString()}</span>
+                            </div>
+                        `).join('');
+                        commentsContainer.innerHTML += hiddenComments;
+                        button.remove(); // Remove the "Show more" button after displaying the hidden comments
+                    });
+                });
+            }
+
+            function addCommentToDOM(postId, comment) {
+                const commentsContainer = document.getElementById(`comments-${postId}`);
+                const commentElement = document.createElement('div');
+                commentElement.classList.add('comment');
+                commentElement.innerHTML = `
+                    <p>${comment.user}: ${comment.text}</p>
+                    <span>${new Date(comment.timestamp).toLocaleString()}</span>
+                `;
+                commentsContainer.appendChild(commentElement);
+            }
+
+            function addNotification(message) {
+                const notificationList = document.getElementById('notification-list');
+                const notificationCount = document.getElementById('notification-count');
+                const newNotification = document.createElement('li');
+                newNotification.textContent = message;
+                notificationList.prepend(newNotification);
+                notificationCount.textContent = parseInt(notificationCount.textContent) + 1;
+            }
+
+            // Cargar publicaciones existentes al iniciar
+            fetch('/getPosts')
+                .then(response => response.json())
+                .then(posts => {
+                    posts.forEach(post => addPostToDOM(post));
+                });
+
+            // Cargar la foto de perfil en el header
+            async function loadProfilePhoto() {
+                try {
+                    const response = await fetch('/currentUser');
+                    if (response.ok) {
+                        const user = await response.json();
+                        // Asigna la foto de perfil si existe, de lo contrario usa la imagen predeterminada
+                        document.getElementById('header-photo').src = user.photo || 'images/usuario.png';
+                    }
+                } catch (error) {
+                    console.error('Error al cargar la foto de perfil:', error);
+                }
+            }
+
+            loadProfilePhoto();
+
+            // Definición del objeto carreras con sus códigos y rutas de HTML correspondientes
+            const carreras = {
+                '204': 'sistemas2.html',        // Sistemas e Informática
+                '214': 'admin.html',  // Administración
+                // Añadir más códigos y rutas aquí según sea necesario
+            };
+
+            // Función para identificar la carrera y redirigir basado en el código del usuario
+            function identificarCarrera(codigo) {
+                const carreraCodigo = codigo.substring(4, 7); // Extrae los 3 dígitos relevantes del código
+                const carrera = carreras[carreraCodigo];      // Busca la carrera correspondiente
+                if (carrera) {
+                    window.location.href = carrera;          // Redirige a la página correspondiente
+                } else {
+                    alert('Carrera no reconocida para este código'); // Muestra un mensaje si no se reconoce
+                }
+            }
+
+            // Función para cargar el código del usuario desde el servidor y redirigir
+            async function redirigirCarrera() {
+                try {
+                    const response = await fetch('/currentUser');
+                    if (response.ok) {
+                        const user = await response.json();
+                        if (user && user.codigo) {
+                            identificarCarrera(user.codigo); // Llama a la función con el código del usuario autenticado
+                        } else {
+                            alert('No se pudo obtener el código del usuario.');
+                        }
+                    } else {
+                        alert('Error al obtener la información del usuario.');
+                    }
+                } catch (error) {
+                    console.error('Error al redirigir a la carrera:', error);
+                }
+            }
+
+            // Añadir evento onclick al icono de carreras
+            document.getElementById('carreras-icon').addEventListener('click', redirigirCarrera);
+        });
+
+        function logout() {
+            fetch('/logout', {
+                method: 'POST',
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = '/login.html';
+                }
+            }).catch(error => {
+                console.error('Error al cerrar sesión:', error);
+            });
+        }
+    </script>
+</body>
+</html>

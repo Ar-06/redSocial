@@ -1,0 +1,271 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f0f2f5;
+    overflow-x: hidden;
+}
+
+.header {
+    background: #ffffff;
+    padding: 10px 20px;
+    color: rgb(20, 33, 222);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.header img {
+    margin-right: 20px;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+}
+
+.nav-icon {
+    margin: 0 10px;
+    padding: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.nav-icon img {
+    width: 23px;
+    height: 23px;
+}
+
+.nav-icon:hover {
+    transform: scale(1.2);
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-box {
+    padding: 5px;
+    border: none;
+    border-radius: 20px;
+    background: #f0f2f5;
+    margin-right: 10px;
+}
+
+.message-container {
+    position: relative;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.message-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.message-count {
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    position: absolute;
+    top: -5px;
+    right: -10px;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+}
+
+.profile-icon {
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* Main Container */
+.main-container {
+    display: flex;
+    margin-top: 80px;
+    height: calc(100vh - 80px);
+    overflow: hidden;
+    background: #f0f2f5;
+}
+
+.sidebar, .right-bar {
+    width: 20%;
+    background: #f0f2f5;
+    padding: 20px;
+    border-radius: 10px;
+    position: fixed;
+    top: 80px;
+    bottom: 0;
+    overflow-y: auto;
+}
+
+.sidebar {
+    left: 0;
+}
+
+.right-bar {
+    right: 0;
+}
+
+.content {
+    width: 60%;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 0 auto;
+    overflow-y: auto;
+    height: calc(100vh - 80px);
+}
+
+/* Post styles */
+.post-input-container {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.post {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+}
+
+.post-username {
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 5px 10px;
+}
+
+.post-timestamp {
+    font-size: 0.8em;
+    color: #666;
+    margin-left: 10px;
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Comments styles */
+.comments {
+    margin-top: 10px;
+}
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    background: #f0f2f5;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.comment p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.comment span {
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 5px;
+}
+
+.comment-form {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.comment-form input {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 20px;
+    outline: none;
+}
+
+.comment-form button {
+    border: none;
+    color: white;
+    background-color: #007BFF;
+    border-radius: 20px;
+    padding: 8px 20px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.comment-form button:hover {
+    background-color: #0056b3;
+}
+
+.show-more {
+    cursor: pointer;
+    color: #007BFF;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.show-more:hover {
+    text-decoration: underline;
+}
+
+button {
+    border: none;
+    color: white;
+    background-color: #007BFF;
+    border-radius: 20px;
+    padding: 8px 20px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.logout-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    
+    margin-right: 30px; /* Puedes ajustar este valor para mover más o menos el botón */
+}
+
+
+.logout-container img {
+    width: 50px;
+    height: 50px;
+}
+
+.logout-container:hover img {
+    transform: scale(1.2);
+    transition: transform 0.2s;
+}

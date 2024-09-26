@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escuela Profesional de Ingeniería Agroindustrial</title>
+    <link rel="stylesheet" href="css/carreras.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="header"></div>
+        <img src="images/SIMBO.png" width="4.5%" height="143%">
+        <div class="nav-icons">
+            <div class="nav-icon active">
+                <a href="index.html">
+                    <img src="images/hogar.png" width="100%" alt="Home">
+                </a>
+            </div>
+            <div class="nav-icon">
+                <img src="images/tocar.png" alt="Videos">
+            </div>
+            <div class="nav-icon">
+                <img src="images/bolsa-de-la-compra.png" alt="Marketplace">
+            </div>
+            <div class="nav-icon" id="carreras-icon">
+                <img src="images/usuarios-alt.png" alt="Carreras">
+            </div>
+            <div class="nav-icon">
+                <img src="images/siguiendo.png" alt="Games">
+            </div>
+        </div>
+        <div class="search-container">
+            <form action="/buscar" method="GET">
+                <input type="text" class="search-box" name="codigo" placeholder="Buscar...">
+            </form>
+            <div class="message-container" onclick="location.href='/messages'">
+                <img src="images/mensaje.png" width="30" height="30" alt="Mensajes" class="message-icon">
+                <span id="message-count" class="message-count">0</span>
+            </div>
+            <a href="perfil.html" class="profile-link">
+                <img id="header-photo" src="images/usuario.png" width="60" height="60" alt="Perfil" class="profile-icon">
+            </a>
+        </div>
+        <div class="logout-container" onclick="logout()">
+            <img src="images/salida 3.png" alt="Cerrar sesión" width="30" height="30">
+        </div>
+    </div>
+
+    <div class="content-dos">
+        <h5 class="titleAgro"">Agroindustrial</h5>
+        <p class="info"> </p> 
+        <div class="post-input-container"> <!--CAMBIAR DESPUES-->
+            <img class="profile-pic" src="images/perfilAgro.png" alt="Perfil">
+            <form id="post-form" enctype="multipart/form-data">
+                <input type="hidden" id="user" name="user" value="UsuarioActual">
+                <input type="text" id="post-input" name="text" placeholder="¿Qué tienes en mente, estudiante?">
+                
+                <div class="post-actions">
+                    <label for="image-upload" class="custom-file-upload">
+                        <img src="images/fotosyvideo.png" alt="Icono"> Foto/video
+                    </label>
+                    <input type="file" id="image-upload" name="image" accept="image/*" onchange="previewImage()">
+                    <img id="image-preview" src="" alt="Vista previa de la imagen" style="display:none;">
+                    <button type="submit">Publicar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <aside class="sidebar-dos">
+       <img  src="images/perfilAgro.png" alt="Perfil" >
+       <h3 class="aside-title">Años acadeḿicos</h3>
+       <ul class="aside-years">
+            <li><a href="#"><i class="icon fa-regular fa-calendar"></i>2019</a></li>
+            <li><a href="#"><i class="icon fa-regular fa-calendar"></i>2020</a></li>
+            <li><a href="#"><i class="icon fa-regular fa-calendar"></i>2021</a></li>
+            <li><a href="#"><i class="icon fa-regular fa-calendar"></i>2022</a></li>
+            <li><a href="#"><i class="icon fa-regular fa-calendar"></i>2023</a></li>
+            <li><a href="#"><i class="icon fa-regular fa-calendar"></i>2024</a></li>
+       </ul>
+       <h3 class="aside-title">Temas que te podrían interesar</h3>
+         <ul>
+            <li><a href="#"><i class="icon fas fa-shield"></i>Seguridad Alimentaria</a></li>
+            <li><a href="#"><i class="icon fas fa-apple-whole"></i>Innovación en Procesos de Transformación de Alimentos</a></li>
+            <li><a href="#"><i class="icon fas fa-link"></i>Gestión de la Cadena de Suministro Agroindustrial</a></li>
+            <li><a href="#"><i class="icon fas fa-flask"></i>Sostenibilidad y Producción Agroindustrial</a></li>
+        </ul>
+    </aside>
+
+    <aside class="aside">
+        <div class="aside-content">
+            <h2>Preguntas Diarias</h2>
+
+            <section class="question-card">
+                <header class="question-header">
+                    <i class="question-icon fas fa-question-circle"></i>
+                    <span class="question-title">Pregunta del día</span>
+                </header>
+                <p class="question-text">Explica el proceso de pasteurización y sus variantes (HTST y UHT). ¿Cómo afectan estos métodos a la calidad nutricional y organoléptica de la leche?</p>
+                <footer class="question-footer">
+                    <button class="answer-button">Responder</button>
+                </footer>
+            </section>
+
+            <section class="question-card">
+                <header class="question-card">
+                    <i class="question-icon fas fa-lightbulb"></i>
+                    <span class="question-title">Conservación de Alimentos</span>
+                </header>
+                <p class="question-text">Compara los métodos de deshidratación y liofilización para la conservación de frutas. ¿Cuáles son las ventajas y desventajas de cada método?</p>
+                <footer class="question-footer">
+                    <button class="answer-button">Responder</button>
+                </footer>
+            </section>
+
+            <section class="question-card">
+                <header class="question-card">
+                    <i class="question-icon fas fa-graduation-cap"></i>
+                    <span class="question-title">Consejo del día</span>
+                </header>
+                <p class="question-text">¿Qué consejo le darías a un estudiante de primer ciclo para que tenga éxito en la carrera?</p>
+                <footer class="question-footer">
+                    <button class="answer-button">Responder</button>
+                </footer>
+            </section>
+
+            <section class="more-question">
+                <a href="#" class="more-link">Ver más preguntas</a>
+            </section>
+
+        </div>
+    </aside>
+</body>
+</html>
